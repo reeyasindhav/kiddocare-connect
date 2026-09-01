@@ -1,3 +1,20 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
-export const Route = createFileRoute("/bookings")({ head: () => ({ meta: [{ title: "Bookings — Kiddocare" }, { name: "description", content: "Manage upcoming childcare bookings and care requests." }, { property: "og:title", content: "Bookings — Kiddocare" }, { property: "og:description", content: "Manage upcoming childcare bookings and care requests." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }), component: BookingsPage });
-function BookingsPage() { return <Outlet />; }
+export const Route = createFileRoute("/bookings")({
+  head: () => ({
+    meta: [
+      { title: "Bookings — Kiddocare" },
+      { name: "description", content: "Manage upcoming childcare bookings and care requests." },
+      { property: "og:title", content: "Bookings — Kiddocare" },
+      {
+        property: "og:description",
+        content: "Manage upcoming childcare bookings and care requests.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: BookingsPage,
+});
+function BookingsPage() {
+  return <Outlet />;
+}

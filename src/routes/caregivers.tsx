@@ -1,3 +1,25 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
-export const Route = createFileRoute("/caregivers")({ head: () => ({ meta: [{ title: "Caregivers — Kiddocare" }, { name: "description", content: "Browse trusted local childcare providers with verified profiles and parent reviews." }, { property: "og:title", content: "Caregivers — Kiddocare" }, { property: "og:description", content: "Browse trusted local childcare providers with verified profiles and parent reviews." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }), component: CaregiversPage });
-function CaregiversPage() { return <Outlet />; }
+export const Route = createFileRoute("/caregivers")({
+  head: () => ({
+    meta: [
+      { title: "Caregivers — Kiddocare" },
+      {
+        name: "description",
+        content:
+          "Browse trusted local childcare providers with verified profiles and parent reviews.",
+      },
+      { property: "og:title", content: "Caregivers — Kiddocare" },
+      {
+        property: "og:description",
+        content:
+          "Browse trusted local childcare providers with verified profiles and parent reviews.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: CaregiversPage,
+});
+function CaregiversPage() {
+  return <Outlet />;
+}

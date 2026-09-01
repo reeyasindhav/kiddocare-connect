@@ -1,29 +1,460 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, CalendarDays, Check, ChevronDown, ChevronLeft, ChevronRight, Heart, Inbox, MapPin, Menu, Search, ShieldCheck, Star, Users, X } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  Inbox,
+  MapPin,
+  Menu,
+  Search,
+  ShieldCheck,
+  Star,
+  Users,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { caregivers, type Caregiver, upcomingDays } from "@/lib/mock-data";
 
-export function Logo() { return <Link to="/" className="flex items-center gap-3" aria-label="Kiddocare home"><span className="grid size-10 place-items-center rounded-[10px] bg-teal font-display text-lg font-extrabold text-sand">K</span><span className="font-display text-lg font-bold tracking-tight text-ink">kiddocare</span></Link>; }
-
-export function AppShell({ children, active = "discover" }: { children: ReactNode; active?: string }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [authenticated, setAuthenticated] = useState(false);
-  useEffect(() => setAuthenticated(window.localStorage.getItem("kiddocare-demo-auth") === "true"), []);
-  const nav = [{ to: "/discover", label: "Discover", icon: Search, key: "discover" }, { to: "/caregivers", label: "Caregivers", icon: Users, key: "caregivers" }, { to: "/bookings", label: "Bookings", icon: CalendarDays, key: "bookings" }, { to: "/messages", label: "Messages", icon: Inbox, key: "messages" }] as const;
-  return <div className="min-h-screen bg-sand text-ink"><header className="sticky top-0 z-40 border-b border-ink/10 bg-sand/90 backdrop-blur-md"><div className="mx-auto flex min-h-16 max-w-[1320px] items-center justify-between gap-5 px-5 py-3 lg:px-8"><div className="flex items-center gap-7"><button className="grid size-9 place-items-center rounded-lg text-ink/60 hover:bg-ink/5 md:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle navigation">{mobileOpen ? <X size={18} /> : <Menu size={18} />}</button><Logo /><span className="hidden rounded-full bg-ink/5 px-2.5 py-1 text-xs font-semibold text-ink/55 sm:inline">parent workspace</span></div><nav className="hidden items-center gap-1 md:flex">{nav.map(({ to, label, icon: Icon, key }) => <Link key={key} to={to} activeProps={{ className: "bg-mint text-teal" }} inactiveProps={{ className: "text-ink/60 hover:bg-ink/5 hover:text-ink" }} className="flex items-center gap-2 rounded-full px-3 py-2 text-[13px] font-semibold"><Icon size={15} />{label}{label === "Messages" && <span className="grid size-4 place-items-center rounded-full bg-coral text-[9px] text-sand">2</span>}</Link>)}</nav><div className="flex items-center gap-2">{authenticated ? <Link to="/dashboard" className="hidden items-center gap-2 rounded-full border border-ink/10 px-3 py-2 text-[13px] font-semibold text-ink/70 hover:bg-surface sm:flex"><span className="grid size-5 place-items-center rounded-full bg-coral text-[10px] text-sand">EM</span>Emma <ChevronDown size={14} /></Link> : <Link to="/auth" className="hidden rounded-full px-3 py-2 text-[13px] font-semibold text-ink/70 hover:bg-ink/5 sm:block">Log in</Link>}<Button asChild className="rounded-full bg-coral px-4 text-[13px] font-bold text-sand hover:bg-coral/90"><Link to={authenticated ? "/bookings/new" : "/signup"}>{authenticated ? "Find care" : "Sign up"}</Link></Button></div></div>{mobileOpen && <div className="border-t border-ink/10 bg-sand px-5 py-3 md:hidden"><nav className="grid gap-1">{nav.map(({ to, label, icon: Icon }) => <Link key={to} to={to} onClick={() => setMobileOpen(false)} className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-ink/70 hover:bg-ink/5"><Icon size={16} />{label}</Link>)}</nav></div>}</header>{children}<footer className="border-t border-ink/10"><div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-4 px-5 py-7 text-sm text-ink/50 sm:flex-row sm:items-center lg:px-8"><div className="flex items-center gap-3"><Logo /><span className="text-xs">Childcare, made human.</span></div><div className="flex flex-wrap gap-x-5 gap-y-2"><Link to="/safety" className="hover:text-ink">Safety & vetting</Link><Link to="/caregivers" className="hover:text-ink">For caregivers</Link><Link to="/settings" className="hover:text-ink">Support</Link></div></div></footer></div>;
+export function Logo() {
+  return (
+    <Link to="/" className="flex items-center gap-3" aria-label="Kiddocare home">
+      <span className="grid size-10 place-items-center rounded-[10px] bg-teal font-display text-lg font-extrabold text-sand">
+        K
+      </span>
+      <span className="font-display text-lg font-bold tracking-tight text-ink">kiddocare</span>
+    </Link>
+  );
 }
 
-export function PageFrame({ eyebrow, title, description, children, action }: { eyebrow?: string; title: string; description?: string; children: ReactNode; action?: ReactNode }) { return <main className="mx-auto max-w-[1320px] px-5 py-8 lg:px-8 lg:py-10"><div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between"><div className="max-w-2xl kc-rise">{eyebrow && <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-coral"><span className="h-px w-5 bg-coral" />{eyebrow}</p>}<h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl">{title}</h1>{description && <p className="mt-3 max-w-xl text-sm leading-6 text-ink/60">{description}</p>}</div>{action}</div>{children}</main>; }
+export function AppShell({
+  children,
+  active = "discover",
+}: {
+  children: ReactNode;
+  active?: string;
+}) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+  useEffect(
+    () => setAuthenticated(window.localStorage.getItem("kiddocare-demo-auth") === "true"),
+    [],
+  );
+  const nav = [
+    { to: "/discover", label: "Discover", icon: Search, key: "discover" },
+    { to: "/caregivers", label: "Caregivers", icon: Users, key: "caregivers" },
+    { to: "/bookings", label: "Bookings", icon: CalendarDays, key: "bookings" },
+    { to: "/messages", label: "Messages", icon: Inbox, key: "messages" },
+  ] as const;
+  return (
+    <div className="min-h-screen bg-sand text-ink">
+      <header className="sticky top-0 z-40 border-b border-ink/10 bg-sand/90 backdrop-blur-md">
+        <div className="mx-auto flex min-h-16 max-w-[1320px] items-center justify-between gap-5 px-5 py-3 lg:px-8">
+          <div className="flex items-center gap-7">
+            <button
+              className="grid size-9 place-items-center rounded-lg text-ink/60 hover:bg-ink/5 md:hidden"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle navigation"
+            >
+              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+            <Logo />
+            <span className="hidden rounded-full bg-ink/5 px-2.5 py-1 text-xs font-semibold text-ink/55 sm:inline">
+              parent workspace
+            </span>
+          </div>
+          <nav className="hidden items-center gap-1 md:flex">
+            {nav.map(({ to, label, icon: Icon, key }) => (
+              <Link
+                key={key}
+                to={to}
+                activeProps={{ className: "bg-mint text-teal" }}
+                inactiveProps={{ className: "text-ink/60 hover:bg-ink/5 hover:text-ink" }}
+                className="flex items-center gap-2 rounded-full px-3 py-2 text-[13px] font-semibold"
+              >
+                <Icon size={15} />
+                {label}
+                {label === "Messages" && (
+                  <span className="grid size-4 place-items-center rounded-full bg-coral text-[9px] text-sand">
+                    2
+                  </span>
+                )}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2">
+            {authenticated ? (
+              <Link
+                to="/dashboard"
+                className="hidden items-center gap-2 rounded-full border border-ink/10 px-3 py-2 text-[13px] font-semibold text-ink/70 hover:bg-surface sm:flex"
+              >
+                <span className="grid size-5 place-items-center rounded-full bg-coral text-[10px] text-sand">
+                  EM
+                </span>
+                Emma <ChevronDown size={14} />
+              </Link>
+            ) : (
+              <Link
+                to="/auth"
+                className="hidden rounded-full px-3 py-2 text-[13px] font-semibold text-ink/70 hover:bg-ink/5 sm:block"
+              >
+                Log in
+              </Link>
+            )}
+            <Button
+              asChild
+              className="rounded-full bg-coral px-4 text-[13px] font-bold text-sand hover:bg-coral/90"
+            >
+              <Link to={authenticated ? "/bookings/new" : "/signup"}>
+                {authenticated ? "Find care" : "Sign up"}
+              </Link>
+            </Button>
+          </div>
+        </div>
+        {mobileOpen && (
+          <div className="border-t border-ink/10 bg-sand px-5 py-3 md:hidden">
+            <nav className="grid gap-1">
+              {nav.map(({ to, label, icon: Icon }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-ink/70 hover:bg-ink/5"
+                >
+                  <Icon size={16} />
+                  {label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        )}
+      </header>
+      {children}
+      <footer className="border-t border-ink/10">
+        <div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-4 px-5 py-7 text-sm text-ink/50 sm:flex-row sm:items-center lg:px-8">
+          <div className="flex items-center gap-3">
+            <Logo />
+            <span className="text-xs">Childcare, made human.</span>
+          </div>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link to="/safety" className="hover:text-ink">
+              Safety & vetting
+            </Link>
+            <Link to="/caregivers" className="hover:text-ink">
+              For caregivers
+            </Link>
+            <Link to="/settings" className="hover:text-ink">
+              Support
+            </Link>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
 
-export function TrustBadge({ children, coral = false }: { children: ReactNode; coral?: boolean }) { return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold ${coral ? "bg-coral/10 text-coral" : "bg-mint text-teal"}`}><ShieldCheck size={12} />{children}</span>; }
+export function PageFrame({
+  eyebrow,
+  title,
+  description,
+  children,
+  action,
+}: {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  children: ReactNode;
+  action?: ReactNode;
+}) {
+  return (
+    <main className="mx-auto max-w-[1320px] px-5 py-8 lg:px-8 lg:py-10">
+      <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-2xl kc-rise">
+          {eyebrow && (
+            <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-coral">
+              <span className="h-px w-5 bg-coral" />
+              {eyebrow}
+            </p>
+          )}
+          <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl">
+            {title}
+          </h1>
+          {description && (
+            <p className="mt-3 max-w-xl text-sm leading-6 text-ink/60">{description}</p>
+          )}
+        </div>
+        {action}
+      </div>
+      {children}
+    </main>
+  );
+}
 
-export function CaregiverCard({ caregiver, compact = false }: { caregiver: Caregiver; compact?: boolean }) { return <article className={`kc-lift rounded-2xl bg-surface p-5 ring-1 ring-ink/10 ${compact ? "" : "flex flex-col"}`}><div className="flex items-start gap-3"><img src={caregiver.image} alt={`${caregiver.name} profile`} className={`${compact ? "size-14" : "size-16"} shrink-0 rounded-xl object-cover`} /><div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><h3 className="font-display text-base font-bold text-ink">{caregiver.name}</h3><TrustBadge>{caregiver.badges[0]}</TrustBadge></div><p className="mt-1 text-xs text-ink/55">{caregiver.role} · {caregiver.neighborhood}</p><div className="mt-2 flex items-center gap-3 text-xs"><span className="inline-flex items-center gap-1 font-bold text-coral"><Star size={13} fill="currentColor" />{caregiver.rating}</span><span className="text-ink/45">{caregiver.reviews} parent reviews</span></div></div><button className="text-ink/35 hover:text-coral" aria-label={`Save ${caregiver.name}`}><Heart size={18} /></button></div><div className="mt-4 flex flex-wrap gap-1.5">{caregiver.badges.slice(1).map((badge) => <TrustBadge key={badge}>{badge}</TrustBadge>)}{caregiver.tags.map((tag) => <span key={tag} className="rounded-full bg-sand px-2.5 py-1 text-[10px] font-semibold text-ink/55 ring-1 ring-ink/5">{tag}</span>)}</div>{!compact && <><p className="mt-4 text-sm leading-6 text-ink/70">{caregiver.bio}</p><div className="mt-4 flex items-center justify-between border-t border-ink/10 pt-4"><span className="font-display text-lg font-bold text-ink">${caregiver.rate}<span className="font-body text-xs font-medium text-ink/45"> / hr</span></span><span className="flex items-center gap-1 text-xs font-semibold text-teal"><MapPin size={13} />{caregiver.distance}</span></div><div className="mt-3 flex gap-2"><Button asChild className="flex-1 rounded-xl bg-coral text-xs font-bold text-sand hover:bg-coral/90"><Link to="/caregivers/$caregiverId" params={{ caregiverId: caregiver.id }}>View profile</Link></Button><Button asChild variant="outline" className="rounded-xl border-ink/15 text-xs font-bold text-ink"><Link to="/messages">Message</Link></Button></div></>}</article>; }
+export function TrustBadge({ children, coral = false }: { children: ReactNode; coral?: boolean }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold ${coral ? "bg-coral/10 text-coral" : "bg-mint text-teal"}`}
+    >
+      <ShieldCheck size={12} />
+      {children}
+    </span>
+  );
+}
 
-export function WeekCalendar({ interactive = false }: { interactive?: boolean }) { const [selected, setSelected] = useState("12"); return <div className="rounded-2xl bg-surface p-5 ring-1 ring-ink/10"><div className="flex items-center justify-between"><div><p className="font-display text-sm font-bold">June 2024</p><p className="mt-1 text-xs text-ink/50">Choose a day with open care</p></div><div className="flex gap-1"><button className="grid size-8 place-items-center rounded-full hover:bg-ink/5" aria-label="Previous month"><ChevronLeft size={16} /></button><button className="grid size-8 place-items-center rounded-full hover:bg-ink/5" aria-label="Next month"><ChevronRight size={16} /></button></div></div><div className="mt-5 grid grid-cols-7 gap-1.5">{upcomingDays.map((item) => <button key={item.date} onClick={() => interactive && setSelected(item.date)} className={`grid min-h-14 place-items-center rounded-xl text-center transition-colors ${selected === item.date ? "bg-coral text-sand" : item.state === "open" ? "bg-mint text-teal hover:bg-mint/70" : "bg-ink/5 text-ink/35"}`}><span className="text-[9px] font-bold tracking-wide">{item.day}</span><span className="font-display text-sm font-bold">{item.date}</span></button>)}</div><div className="mt-5 space-y-2"><div className="flex items-center justify-between rounded-xl bg-sand px-3 py-3 text-sm"><span className="font-semibold">3:30–7:00 pm</span><span className="font-bold text-teal">Open</span></div><div className="flex items-center justify-between rounded-xl bg-ink/5 px-3 py-3 text-sm text-ink/45"><span className="font-semibold">7:00–9:00 pm</span><span className="font-bold">Booked</span></div></div></div>; }
+export function CaregiverCard({
+  caregiver,
+  compact = false,
+}: {
+  caregiver: Caregiver;
+  compact?: boolean;
+}) {
+  return (
+    <article
+      className={`kc-lift rounded-2xl bg-surface p-5 ring-1 ring-ink/10 ${compact ? "" : "flex flex-col"}`}
+    >
+      <div className="flex items-start gap-3">
+        <img
+          src={caregiver.image}
+          alt={`${caregiver.name} profile`}
+          className={`${compact ? "size-14" : "size-16"} shrink-0 rounded-xl object-cover`}
+        />
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-display text-base font-bold text-ink">{caregiver.name}</h3>
+            <TrustBadge>{caregiver.badges[0]}</TrustBadge>
+          </div>
+          <p className="mt-1 text-xs text-ink/55">
+            {caregiver.role} · {caregiver.neighborhood}
+          </p>
+          <div className="mt-2 flex items-center gap-3 text-xs">
+            <span className="inline-flex items-center gap-1 font-bold text-coral">
+              <Star size={13} fill="currentColor" />
+              {caregiver.rating}
+            </span>
+            <span className="text-ink/45">{caregiver.reviews} parent reviews</span>
+          </div>
+        </div>
+        <button className="text-ink/35 hover:text-coral" aria-label={`Save ${caregiver.name}`}>
+          <Heart size={18} />
+        </button>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {caregiver.badges.slice(1).map((badge) => (
+          <TrustBadge key={badge}>{badge}</TrustBadge>
+        ))}
+        {caregiver.tags.map((tag) => (
+          <span
+            key={tag}
+            className="rounded-full bg-sand px-2.5 py-1 text-[10px] font-semibold text-ink/55 ring-1 ring-ink/5"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+      {!compact && (
+        <>
+          <p className="mt-4 text-sm leading-6 text-ink/70">{caregiver.bio}</p>
+          <div className="mt-4 flex items-center justify-between border-t border-ink/10 pt-4">
+            <span className="font-display text-lg font-bold text-ink">
+              ${caregiver.rate}
+              <span className="font-body text-xs font-medium text-ink/45"> / hr</span>
+            </span>
+            <span className="flex items-center gap-1 text-xs font-semibold text-teal">
+              <MapPin size={13} />
+              {caregiver.distance}
+            </span>
+          </div>
+          <div className="mt-3 flex gap-2">
+            <Button
+              asChild
+              className="flex-1 rounded-xl bg-coral text-xs font-bold text-sand hover:bg-coral/90"
+            >
+              <Link to="/caregivers/$caregiverId" params={{ caregiverId: caregiver.id }}>
+                View profile
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="rounded-xl border-ink/15 text-xs font-bold text-ink"
+            >
+              <Link to="/messages">Message</Link>
+            </Button>
+          </div>
+        </>
+      )}
+    </article>
+  );
+}
 
-export function FilterBar({ onSearch }: { onSearch?: () => void }) { const [query, setQuery] = useState("Brooklyn, NY"); return <div className="flex flex-col gap-2 rounded-2xl bg-surface p-2 ring-1 ring-ink/10 lg:flex-row"><label className="flex flex-1 items-center gap-3 rounded-xl bg-sand px-4 py-3"><Search size={17} className="text-ink/35" /><input value={query} onChange={(event) => setQuery(event.target.value)} className="w-full bg-transparent text-sm font-semibold text-ink outline-none placeholder:text-ink/40" placeholder="Neighborhood or postcode" /></label><label className="flex items-center gap-3 rounded-xl bg-sand px-4 py-3 lg:min-w-44"><CalendarDays size={17} className="text-coral" /><span className="text-sm font-semibold">Wed, Jun 12</span><ChevronDown size={14} className="ml-auto text-ink/35" /></label><Button onClick={onSearch} className="rounded-xl bg-coral px-6 font-bold text-sand hover:bg-coral/90"><Search size={16} />Search</Button></div>; }
+export function WeekCalendar({ interactive = false }: { interactive?: boolean }) {
+  const [selected, setSelected] = useState("12");
+  return (
+    <div className="rounded-2xl bg-surface p-5 ring-1 ring-ink/10">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="font-display text-sm font-bold">June 2024</p>
+          <p className="mt-1 text-xs text-ink/50">Choose a day with open care</p>
+        </div>
+        <div className="flex gap-1">
+          <button
+            className="grid size-8 place-items-center rounded-full hover:bg-ink/5"
+            aria-label="Previous month"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            className="grid size-8 place-items-center rounded-full hover:bg-ink/5"
+            aria-label="Next month"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      </div>
+      <div className="mt-5 grid grid-cols-7 gap-1.5">
+        {upcomingDays.map((item) => (
+          <button
+            key={item.date}
+            onClick={() => interactive && setSelected(item.date)}
+            className={`grid min-h-14 place-items-center rounded-xl text-center transition-colors ${selected === item.date ? "bg-coral text-sand" : item.state === "open" ? "bg-mint text-teal hover:bg-mint/70" : "bg-ink/5 text-ink/35"}`}
+          >
+            <span className="text-[9px] font-bold tracking-wide">{item.day}</span>
+            <span className="font-display text-sm font-bold">{item.date}</span>
+          </button>
+        ))}
+      </div>
+      <div className="mt-5 space-y-2">
+        <div className="flex items-center justify-between rounded-xl bg-sand px-3 py-3 text-sm">
+          <span className="font-semibold">3:30–7:00 pm</span>
+          <span className="font-bold text-teal">Open</span>
+        </div>
+        <div className="flex items-center justify-between rounded-xl bg-ink/5 px-3 py-3 text-sm text-ink/45">
+          <span className="font-semibold">7:00–9:00 pm</span>
+          <span className="font-bold">Booked</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-export function EmptyState({ title, description, icon: Icon = CalendarDays }: { title: string; description: string; icon?: typeof CalendarDays }) { return <div className="grid place-items-center rounded-2xl border border-dashed border-ink/15 bg-surface px-6 py-14 text-center"><span className="grid size-12 place-items-center rounded-2xl bg-mint text-teal"><Icon size={21} /></span><h2 className="mt-4 font-display text-lg font-bold">{title}</h2><p className="mt-2 max-w-sm text-sm leading-6 text-ink/55">{description}</p></div>; }
+export function FilterBar({ onSearch }: { onSearch?: () => void }) {
+  const [query, setQuery] = useState("Brooklyn, NY");
+  return (
+    <div className="flex flex-col gap-2 rounded-2xl bg-surface p-2 ring-1 ring-ink/10 lg:flex-row">
+      <label className="flex flex-1 items-center gap-3 rounded-xl bg-sand px-4 py-3">
+        <Search size={17} className="text-ink/35" />
+        <input
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          className="w-full bg-transparent text-sm font-semibold text-ink outline-none placeholder:text-ink/40"
+          placeholder="Neighborhood or postcode"
+        />
+      </label>
+      <label className="flex items-center gap-3 rounded-xl bg-sand px-4 py-3 lg:min-w-44">
+        <CalendarDays size={17} className="text-coral" />
+        <span className="text-sm font-semibold">Wed, Jun 12</span>
+        <ChevronDown size={14} className="ml-auto text-ink/35" />
+      </label>
+      <Button
+        onClick={onSearch}
+        className="rounded-xl bg-coral px-6 font-bold text-sand hover:bg-coral/90"
+      >
+        <Search size={16} />
+        Search
+      </Button>
+    </div>
+  );
+}
 
-export function AuthForm({ mode }: { mode: "login" | "signup" }) { const navigate = useNavigate(); const [submitted, setSubmitted] = useState(false); const [showPassword, setShowPassword] = useState(false); const handleSubmit = (event: React.FormEvent) => { event.preventDefault(); window.localStorage.setItem("kiddocare-demo-auth", "true"); setSubmitted(true); window.setTimeout(() => navigate({ to: "/dashboard" }), 450); }; if (submitted) return <div className="rounded-2xl bg-mint p-6 text-center"><Check className="mx-auto text-teal" /><h2 className="mt-3 font-display text-lg font-bold">You’re all set.</h2><p className="mt-1 text-sm text-ink/60">Taking you to your parent workspace.</p></div>; return <form onSubmit={handleSubmit} className="space-y-4"><label className="block"><span className="mb-2 block text-xs font-bold uppercase tracking-wide text-ink/50">Email address</span><input required type="email" placeholder="emma@example.com" className="h-12 w-full rounded-xl bg-sand px-4 text-sm outline-none ring-1 ring-ink/10 focus:ring-2 focus:ring-teal" /></label><label className="block"><span className="mb-2 block text-xs font-bold uppercase tracking-wide text-ink/50">Password</span><div className="relative"><input required minLength={6} type={showPassword ? "text" : "password"} placeholder="At least 6 characters" className="h-12 w-full rounded-xl bg-sand px-4 pr-20 text-sm outline-none ring-1 ring-ink/10 focus:ring-2 focus:ring-teal" /><button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-teal">{showPassword ? "Hide" : "Show"}</button></div></label>{mode === "signup" && <label className="flex items-start gap-2 text-xs leading-5 text-ink/55"><input type="checkbox" required className="mt-1 accent-coral" />I agree to Kiddocare’s community and safety standards.</label>}<Button type="submit" className="h-12 w-full rounded-xl bg-coral font-bold text-sand hover:bg-coral/90">{mode === "login" ? "Log in to Kiddocare" : "Create parent account"}<ArrowRight size={16} /></Button></form>; }
+export function EmptyState({
+  title,
+  description,
+  icon: Icon = CalendarDays,
+}: {
+  title: string;
+  description: string;
+  icon?: typeof CalendarDays;
+}) {
+  return (
+    <div className="grid place-items-center rounded-2xl border border-dashed border-ink/15 bg-surface px-6 py-14 text-center">
+      <span className="grid size-12 place-items-center rounded-2xl bg-mint text-teal">
+        <Icon size={21} />
+      </span>
+      <h2 className="mt-4 font-display text-lg font-bold">{title}</h2>
+      <p className="mt-2 max-w-sm text-sm leading-6 text-ink/55">{description}</p>
+    </div>
+  );
+}
+
+export function AuthForm({ mode }: { mode: "login" | "signup" }) {
+  const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    window.localStorage.setItem("kiddocare-demo-auth", "true");
+    setSubmitted(true);
+    window.setTimeout(() => navigate({ to: "/dashboard" }), 450);
+  };
+  if (submitted)
+    return (
+      <div className="rounded-2xl bg-mint p-6 text-center">
+        <Check className="mx-auto text-teal" />
+        <h2 className="mt-3 font-display text-lg font-bold">You’re all set.</h2>
+        <p className="mt-1 text-sm text-ink/60">Taking you to your parent workspace.</p>
+      </div>
+    );
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <label className="block">
+        <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-ink/50">
+          Email address
+        </span>
+        <input
+          required
+          type="email"
+          placeholder="emma@example.com"
+          className="h-12 w-full rounded-xl bg-sand px-4 text-sm outline-none ring-1 ring-ink/10 focus:ring-2 focus:ring-teal"
+        />
+      </label>
+      <label className="block">
+        <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-ink/50">
+          Password
+        </span>
+        <div className="relative">
+          <input
+            required
+            minLength={6}
+            type={showPassword ? "text" : "password"}
+            placeholder="At least 6 characters"
+            className="h-12 w-full rounded-xl bg-sand px-4 pr-20 text-sm outline-none ring-1 ring-ink/10 focus:ring-2 focus:ring-teal"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-teal"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </div>
+      </label>
+      {mode === "signup" && (
+        <label className="flex items-start gap-2 text-xs leading-5 text-ink/55">
+          <input type="checkbox" required className="mt-1 accent-coral" />I agree to Kiddocare’s
+          community and safety standards.
+        </label>
+      )}
+      <Button
+        type="submit"
+        className="h-12 w-full rounded-xl bg-coral font-bold text-sand hover:bg-coral/90"
+      >
+        {mode === "login" ? "Log in to Kiddocare" : "Create parent account"}
+        <ArrowRight size={16} />
+      </Button>
+    </form>
+  );
+}

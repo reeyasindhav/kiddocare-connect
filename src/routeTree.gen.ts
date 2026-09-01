@@ -19,7 +19,9 @@ import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as SafetyRouteImport } from './routes/safety'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as BookingsIndexRouteImport } from './routes/bookings.index'
 import { Route as BookingsNewRouteImport } from './routes/bookings.new'
+import { Route as CaregiversIndexRouteImport } from './routes/caregivers.index'
 import { Route as CaregiversCaregiverIdRouteImport } from './routes/caregivers.$caregiverId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -72,10 +74,20 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BookingsIndexRoute = BookingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BookingsRoute,
+} as any)
 const BookingsNewRoute = BookingsNewRouteImport.update({
   id: '/new',
   path: '/new',
   getParentRoute: () => BookingsRoute,
+} as any)
+const CaregiversIndexRoute = CaregiversIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CaregiversRoute,
 } as any)
 const CaregiversCaregiverIdRoute = CaregiversCaregiverIdRouteImport.update({
   id: '/$caregiverId',
@@ -96,12 +108,12 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/bookings/new': typeof BookingsNewRoute
   '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
+  '/bookings/': typeof BookingsIndexRoute
+  '/caregivers/': typeof CaregiversIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/bookings': typeof BookingsRouteWithChildren
-  '/caregivers': typeof CaregiversRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
   '/messages': typeof MessagesRoute
@@ -110,6 +122,8 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/bookings/new': typeof BookingsNewRoute
   '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
+  '/bookings': typeof BookingsIndexRoute
+  '/caregivers': typeof CaregiversIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +139,8 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/bookings/new': typeof BookingsNewRoute
   '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
+  '/bookings/': typeof BookingsIndexRoute
+  '/caregivers/': typeof CaregiversIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,12 +157,12 @@ export interface FileRouteTypes {
     | '/signup'
     | '/bookings/new'
     | '/caregivers/$caregiverId'
+    | '/bookings/'
+    | '/caregivers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
-    | '/bookings'
-    | '/caregivers'
     | '/dashboard'
     | '/discover'
     | '/messages'
@@ -155,6 +171,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/bookings/new'
     | '/caregivers/$caregiverId'
+    | '/bookings'
+    | '/caregivers'
   id:
     | '__root__'
     | '/'
@@ -169,6 +187,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/bookings/new'
     | '/caregivers/$caregiverId'
+    | '/bookings/'
+    | '/caregivers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -256,12 +276,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bookings/': {
+      id: '/bookings/'
+      path: '/'
+      fullPath: '/bookings/'
+      preLoaderRoute: typeof BookingsIndexRouteImport
+      parentRoute: typeof BookingsRoute
+    }
     '/bookings/new': {
       id: '/bookings/new'
       path: '/new'
       fullPath: '/bookings/new'
       preLoaderRoute: typeof BookingsNewRouteImport
       parentRoute: typeof BookingsRoute
+    }
+    '/caregivers/': {
+      id: '/caregivers/'
+      path: '/'
+      fullPath: '/caregivers/'
+      preLoaderRoute: typeof CaregiversIndexRouteImport
+      parentRoute: typeof CaregiversRoute
     }
     '/caregivers/$caregiverId': {
       id: '/caregivers/$caregiverId'
@@ -275,10 +309,12 @@ declare module '@tanstack/react-router' {
 
 interface BookingsRouteChildren {
   BookingsNewRoute: typeof BookingsNewRoute
+  BookingsIndexRoute: typeof BookingsIndexRoute
 }
 
 const BookingsRouteChildren: BookingsRouteChildren = {
   BookingsNewRoute: BookingsNewRoute,
+  BookingsIndexRoute: BookingsIndexRoute,
 }
 
 const BookingsRouteWithChildren = BookingsRoute._addFileChildren(
@@ -287,10 +323,12 @@ const BookingsRouteWithChildren = BookingsRoute._addFileChildren(
 
 interface CaregiversRouteChildren {
   CaregiversCaregiverIdRoute: typeof CaregiversCaregiverIdRoute
+  CaregiversIndexRoute: typeof CaregiversIndexRoute
 }
 
 const CaregiversRouteChildren: CaregiversRouteChildren = {
   CaregiversCaregiverIdRoute: CaregiversCaregiverIdRoute,
+  CaregiversIndexRoute: CaregiversIndexRoute,
 }
 
 const CaregiversRouteWithChildren = CaregiversRoute._addFileChildren(
