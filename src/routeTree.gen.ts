@@ -10,33 +10,198 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BookingsRouteImport } from './routes/bookings'
+import { Route as CaregiversRouteImport } from './routes/caregivers'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as SafetyRouteImport } from './routes/safety'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as BookingsIndexRouteImport } from './routes/bookings.index'
+import { Route as BookingsNewRouteImport } from './routes/bookings.new'
+import { Route as CaregiversIndexRouteImport } from './routes/caregivers.index'
+import { Route as CaregiversCaregiverIdRouteImport } from './routes/caregivers.$caregiverId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsRoute = BookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaregiversRoute = CaregiversRouteImport.update({
+  id: '/caregivers',
+  path: '/caregivers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscoverRoute = DiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafetyRoute = SafetyRouteImport.update({
+  id: '/safety',
+  path: '/safety',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsIndexRoute = BookingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BookingsRoute,
+} as any)
+const BookingsNewRoute = BookingsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => BookingsRoute,
+} as any)
+const CaregiversIndexRoute = CaregiversIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CaregiversRoute,
+} as any)
+const CaregiversCaregiverIdRoute = CaregiversCaregiverIdRouteImport.update({
+  id: '/$caregiverId',
+  path: '/$caregiverId',
+  getParentRoute: () => CaregiversRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/bookings': typeof BookingsRouteWithChildren
+  '/caregivers': typeof CaregiversRouteWithChildren
+  '/dashboard': typeof DashboardRoute
+  '/discover': typeof DiscoverRoute
+  '/messages': typeof MessagesRoute
+  '/safety': typeof SafetyRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/bookings/new': typeof BookingsNewRoute
+  '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
+  '/bookings/': typeof BookingsIndexRoute
+  '/caregivers/': typeof CaregiversIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
+  '/discover': typeof DiscoverRoute
+  '/messages': typeof MessagesRoute
+  '/safety': typeof SafetyRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/bookings/new': typeof BookingsNewRoute
+  '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
+  '/bookings': typeof BookingsIndexRoute
+  '/caregivers': typeof CaregiversIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/bookings': typeof BookingsRouteWithChildren
+  '/caregivers': typeof CaregiversRouteWithChildren
+  '/dashboard': typeof DashboardRoute
+  '/discover': typeof DiscoverRoute
+  '/messages': typeof MessagesRoute
+  '/safety': typeof SafetyRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/bookings/new': typeof BookingsNewRoute
+  '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
+  '/bookings/': typeof BookingsIndexRoute
+  '/caregivers/': typeof CaregiversIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/bookings'
+    | '/caregivers'
+    | '/dashboard'
+    | '/discover'
+    | '/messages'
+    | '/safety'
+    | '/settings'
+    | '/signup'
+    | '/bookings/new'
+    | '/caregivers/$caregiverId'
+    | '/bookings/'
+    | '/caregivers/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/discover'
+    | '/messages'
+    | '/safety'
+    | '/settings'
+    | '/signup'
+    | '/bookings/new'
+    | '/caregivers/$caregiverId'
+    | '/bookings'
+    | '/caregivers'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/bookings'
+    | '/caregivers'
+    | '/dashboard'
+    | '/discover'
+    | '/messages'
+    | '/safety'
+    | '/settings'
+    | '/signup'
+    | '/bookings/new'
+    | '/caregivers/$caregiverId'
+    | '/bookings/'
+    | '/caregivers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  BookingsRoute: typeof BookingsRouteWithChildren
+  CaregiversRoute: typeof CaregiversRouteWithChildren
+  DashboardRoute: typeof DashboardRoute
+  DiscoverRoute: typeof DiscoverRoute
+  MessagesRoute: typeof MessagesRoute
+  SafetyRoute: typeof SafetyRoute
+  SettingsRoute: typeof SettingsRoute
+  SignupRoute: typeof SignupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +213,139 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookings': {
+      id: '/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof BookingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/caregivers': {
+      id: '/caregivers'
+      path: '/caregivers'
+      fullPath: '/caregivers'
+      preLoaderRoute: typeof CaregiversRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safety': {
+      id: '/safety'
+      path: '/safety'
+      fullPath: '/safety'
+      preLoaderRoute: typeof SafetyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookings/': {
+      id: '/bookings/'
+      path: '/'
+      fullPath: '/bookings/'
+      preLoaderRoute: typeof BookingsIndexRouteImport
+      parentRoute: typeof BookingsRoute
+    }
+    '/bookings/new': {
+      id: '/bookings/new'
+      path: '/new'
+      fullPath: '/bookings/new'
+      preLoaderRoute: typeof BookingsNewRouteImport
+      parentRoute: typeof BookingsRoute
+    }
+    '/caregivers/': {
+      id: '/caregivers/'
+      path: '/'
+      fullPath: '/caregivers/'
+      preLoaderRoute: typeof CaregiversIndexRouteImport
+      parentRoute: typeof CaregiversRoute
+    }
+    '/caregivers/$caregiverId': {
+      id: '/caregivers/$caregiverId'
+      path: '/$caregiverId'
+      fullPath: '/caregivers/$caregiverId'
+      preLoaderRoute: typeof CaregiversCaregiverIdRouteImport
+      parentRoute: typeof CaregiversRoute
+    }
   }
 }
 
+interface BookingsRouteChildren {
+  BookingsNewRoute: typeof BookingsNewRoute
+  BookingsIndexRoute: typeof BookingsIndexRoute
+}
+
+const BookingsRouteChildren: BookingsRouteChildren = {
+  BookingsNewRoute: BookingsNewRoute,
+  BookingsIndexRoute: BookingsIndexRoute,
+}
+
+const BookingsRouteWithChildren = BookingsRoute._addFileChildren(
+  BookingsRouteChildren,
+)
+
+interface CaregiversRouteChildren {
+  CaregiversCaregiverIdRoute: typeof CaregiversCaregiverIdRoute
+  CaregiversIndexRoute: typeof CaregiversIndexRoute
+}
+
+const CaregiversRouteChildren: CaregiversRouteChildren = {
+  CaregiversCaregiverIdRoute: CaregiversCaregiverIdRoute,
+  CaregiversIndexRoute: CaregiversIndexRoute,
+}
+
+const CaregiversRouteWithChildren = CaregiversRoute._addFileChildren(
+  CaregiversRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  BookingsRoute: BookingsRouteWithChildren,
+  CaregiversRoute: CaregiversRouteWithChildren,
+  DashboardRoute: DashboardRoute,
+  DiscoverRoute: DiscoverRoute,
+  MessagesRoute: MessagesRoute,
+  SafetyRoute: SafetyRoute,
+  SettingsRoute: SettingsRoute,
+  SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

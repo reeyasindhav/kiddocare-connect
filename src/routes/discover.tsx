@@ -1,0 +1,21 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { DiscoveryPage } from "@/components/kiddocare-pages";
+export const Route = createFileRoute("/discover")({
+  head: () => ({
+    meta: [
+      { title: "Discover caregivers — Kiddocare" },
+      {
+        name: "description",
+        content: "Search trusted caregivers by neighborhood, date, and care needs.",
+      },
+      { property: "og:title", content: "Discover caregivers — Kiddocare" },
+      {
+        property: "og:description",
+        content: "Search trusted caregivers by neighborhood, date, and care needs.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: DiscoveryPage,
+});
