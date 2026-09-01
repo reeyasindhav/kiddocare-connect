@@ -10,15 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BookingsRouteImport } from './routes/bookings'
+import { Route as CaregiverDashboardRouteImport } from './routes/caregiver-dashboard'
 import { Route as CaregiversRouteImport } from './routes/caregivers'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as ForCaregiversRouteImport } from './routes/for-caregivers'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SafetyRouteImport } from './routes/safety'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as BookingsIndexRouteImport } from './routes/bookings.index'
 import { Route as BookingsNewRouteImport } from './routes/bookings.new'
 import { Route as CaregiversIndexRouteImport } from './routes/caregivers.index'
@@ -27,6 +34,11 @@ import { Route as CaregiversCaregiverIdRouteImport } from './routes/caregivers.$
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -39,9 +51,19 @@ const BookingsRoute = BookingsRouteImport.update({
   path: '/bookings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CaregiverDashboardRoute = CaregiverDashboardRouteImport.update({
+  id: '/caregiver-dashboard',
+  path: '/caregiver-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CaregiversRoute = CaregiversRouteImport.update({
   id: '/caregivers',
   path: '/caregivers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -54,9 +76,24 @@ const DiscoverRoute = DiscoverRouteImport.update({
   path: '/discover',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForCaregiversRoute = ForCaregiversRouteImport.update({
+  id: '/for-caregivers',
+  path: '/for-caregivers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MessagesRoute = MessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SafetyRoute = SafetyRouteImport.update({
@@ -72,6 +109,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookingsIndexRoute = BookingsIndexRouteImport.update({
@@ -97,15 +139,22 @@ const CaregiversCaregiverIdRoute = CaregiversCaregiverIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/bookings': typeof BookingsRouteWithChildren
+  '/caregiver-dashboard': typeof CaregiverDashboardRoute
   '/caregivers': typeof CaregiversRouteWithChildren
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/for-caregivers': typeof ForCaregiversRoute
+  '/help': typeof HelpRoute
   '/messages': typeof MessagesRoute
+  '/privacy': typeof PrivacyRoute
   '/safety': typeof SafetyRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
   '/bookings/new': typeof BookingsNewRoute
   '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
   '/bookings/': typeof BookingsIndexRoute
@@ -113,13 +162,20 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/caregiver-dashboard': typeof CaregiverDashboardRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/for-caregivers': typeof ForCaregiversRoute
+  '/help': typeof HelpRoute
   '/messages': typeof MessagesRoute
+  '/privacy': typeof PrivacyRoute
   '/safety': typeof SafetyRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
   '/bookings/new': typeof BookingsNewRoute
   '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
   '/bookings': typeof BookingsIndexRoute
@@ -128,15 +184,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/bookings': typeof BookingsRouteWithChildren
+  '/caregiver-dashboard': typeof CaregiverDashboardRoute
   '/caregivers': typeof CaregiversRouteWithChildren
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/for-caregivers': typeof ForCaregiversRoute
+  '/help': typeof HelpRoute
   '/messages': typeof MessagesRoute
+  '/privacy': typeof PrivacyRoute
   '/safety': typeof SafetyRoute
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
   '/bookings/new': typeof BookingsNewRoute
   '/caregivers/$caregiverId': typeof CaregiversCaregiverIdRoute
   '/bookings/': typeof BookingsIndexRoute
@@ -146,15 +209,22 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/auth'
     | '/bookings'
+    | '/caregiver-dashboard'
     | '/caregivers'
+    | '/contact'
     | '/dashboard'
     | '/discover'
+    | '/for-caregivers'
+    | '/help'
     | '/messages'
+    | '/privacy'
     | '/safety'
     | '/settings'
     | '/signup'
+    | '/terms'
     | '/bookings/new'
     | '/caregivers/$caregiverId'
     | '/bookings/'
@@ -162,13 +232,20 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/auth'
+    | '/caregiver-dashboard'
+    | '/contact'
     | '/dashboard'
     | '/discover'
+    | '/for-caregivers'
+    | '/help'
     | '/messages'
+    | '/privacy'
     | '/safety'
     | '/settings'
     | '/signup'
+    | '/terms'
     | '/bookings/new'
     | '/caregivers/$caregiverId'
     | '/bookings'
@@ -176,15 +253,22 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/auth'
     | '/bookings'
+    | '/caregiver-dashboard'
     | '/caregivers'
+    | '/contact'
     | '/dashboard'
     | '/discover'
+    | '/for-caregivers'
+    | '/help'
     | '/messages'
+    | '/privacy'
     | '/safety'
     | '/settings'
     | '/signup'
+    | '/terms'
     | '/bookings/new'
     | '/caregivers/$caregiverId'
     | '/bookings/'
@@ -193,15 +277,22 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   BookingsRoute: typeof BookingsRouteWithChildren
+  CaregiverDashboardRoute: typeof CaregiverDashboardRoute
   CaregiversRoute: typeof CaregiversRouteWithChildren
+  ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   DiscoverRoute: typeof DiscoverRoute
+  ForCaregiversRoute: typeof ForCaregiversRoute
+  HelpRoute: typeof HelpRoute
   MessagesRoute: typeof MessagesRoute
+  PrivacyRoute: typeof PrivacyRoute
   SafetyRoute: typeof SafetyRoute
   SettingsRoute: typeof SettingsRoute
   SignupRoute: typeof SignupRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -211,6 +302,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -227,11 +325,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/caregiver-dashboard': {
+      id: '/caregiver-dashboard'
+      path: '/caregiver-dashboard'
+      fullPath: '/caregiver-dashboard'
+      preLoaderRoute: typeof CaregiverDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/caregivers': {
       id: '/caregivers'
       path: '/caregivers'
       fullPath: '/caregivers'
       preLoaderRoute: typeof CaregiversRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -248,11 +360,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiscoverRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/for-caregivers': {
+      id: '/for-caregivers'
+      path: '/for-caregivers'
+      fullPath: '/for-caregivers'
+      preLoaderRoute: typeof ForCaregiversRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/messages': {
       id: '/messages'
       path: '/messages'
       fullPath: '/messages'
       preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/safety': {
@@ -274,6 +407,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bookings/': {
@@ -337,15 +477,22 @@ const CaregiversRouteWithChildren = CaregiversRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   BookingsRoute: BookingsRouteWithChildren,
+  CaregiverDashboardRoute: CaregiverDashboardRoute,
   CaregiversRoute: CaregiversRouteWithChildren,
+  ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   DiscoverRoute: DiscoverRoute,
+  ForCaregiversRoute: ForCaregiversRoute,
+  HelpRoute: HelpRoute,
   MessagesRoute: MessagesRoute,
+  PrivacyRoute: PrivacyRoute,
   SafetyRoute: SafetyRoute,
   SettingsRoute: SettingsRoute,
   SignupRoute: SignupRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -128,13 +128,60 @@ export const bookings = [
   },
 ];
 
-export const messages = [
+export type MessageThread = {
+  id: string;
+  caregiver: Caregiver;
+  preview: string;
+  time: string;
+  unread: boolean;
+  typing?: boolean;
+  messages: {
+    id: string;
+    sender: "user" | "caregiver";
+    text: string;
+    time: string;
+  }[];
+};
+
+export const messages: MessageThread[] = [
   {
     id: "m1",
     caregiver: firstCaregiver,
     preview: "I can bring the sensory play kit we talked about.",
     time: "10:42 AM",
     unread: true,
+    messages: [
+      {
+        id: "m1-1",
+        sender: "user",
+        text: "Hi Amara! I saw your profile and I'm interested in your availability next week.",
+        time: "10:15 AM",
+      },
+      {
+        id: "m1-2",
+        sender: "caregiver",
+        text: "Hello! Thanks for reaching out. I have availability on Tuesday and Thursday evenings next week.",
+        time: "10:22 AM",
+      },
+      {
+        id: "m1-3",
+        sender: "user",
+        text: "That sounds great! Do you have experience with toddlers? My daughter is 2.",
+        time: "10:30 AM",
+      },
+      {
+        id: "m1-4",
+        sender: "caregiver",
+        text: "Absolutely! I've worked with many toddlers over my 7 years. I specialize in gentle routines and sensory play.",
+        time: "10:38 AM",
+      },
+      {
+        id: "m1-5",
+        sender: "caregiver",
+        text: "I can bring the sensory play kit we talked about.",
+        time: "10:42 AM",
+      },
+    ],
   },
   {
     id: "m2",
@@ -142,6 +189,32 @@ export const messages = [
     preview: "Thanks for sending over the bedtime routine!",
     time: "Yesterday",
     unread: true,
+    messages: [
+      {
+        id: "m2-1",
+        sender: "user",
+        text: "Hey Devon, would you be available for after-school care on Wednesdays?",
+        time: "Yesterday, 4:00 PM",
+      },
+      {
+        id: "m2-2",
+        sender: "caregiver",
+        text: "Hi there! Wednesdays work well for me. What time would you need me?",
+        time: "Yesterday, 4:15 PM",
+      },
+      {
+        id: "m2-3",
+        sender: "user",
+        text: "From 3:30 to 6:30 would be perfect. I'll send over our bedtime routine document.",
+        time: "Yesterday, 4:22 PM",
+      },
+      {
+        id: "m2-4",
+        sender: "caregiver",
+        text: "Thanks for sending over the bedtime routine!",
+        time: "Yesterday, 4:30 PM",
+      },
+    ],
   },
   {
     id: "m3",
@@ -149,6 +222,44 @@ export const messages = [
     preview: "Thursday at 5 works perfectly for me.",
     time: "Mon",
     unread: false,
+    messages: [
+      {
+        id: "m3-1",
+        sender: "user",
+        text: "Hi Priya, I'm looking for someone with special needs experience for my son.",
+        time: "Mon, 2:00 PM",
+      },
+      {
+        id: "m3-2",
+        sender: "caregiver",
+        text: "Hello! I'd love to help. Could you tell me a bit more about what kind of support he needs?",
+        time: "Mon, 2:20 PM",
+      },
+      {
+        id: "m3-3",
+        sender: "user",
+        text: "He has autism and responds well to structured routines and sensory activities.",
+        time: "Mon, 2:35 PM",
+      },
+      {
+        id: "m3-4",
+        sender: "caregiver",
+        text: "That's my specialty! I'm trained in sensory play and structured routines. Would you like to schedule a meet-and-greet?",
+        time: "Mon, 3:00 PM",
+      },
+      {
+        id: "m3-5",
+        sender: "user",
+        text: "Yes, that would be wonderful. How about Thursday at 5?",
+        time: "Mon, 3:10 PM",
+      },
+      {
+        id: "m3-6",
+        sender: "caregiver",
+        text: "Thursday at 5 works perfectly for me.",
+        time: "Mon, 3:15 PM",
+      },
+    ],
   },
 ];
 

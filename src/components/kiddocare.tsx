@@ -9,15 +9,36 @@ import {
   ChevronRight,
   Heart,
   Inbox,
+  LogOut,
   MapPin,
   Menu,
   Search,
+  Settings,
   ShieldCheck,
   Star,
+  User,
   Users,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { caregivers, type Caregiver, upcomingDays } from "@/lib/mock-data";
 
 export function Logo() {
@@ -40,12 +61,25 @@ export function AppShell({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const navigate = useNavigate();
   useEffect(
     () => setAuthenticated(window.localStorage.getItem("kiddocare-demo-auth") === "true"),
     [],
   );
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("kiddocare-demo-auth");
+    setAuthenticated(false);
+    setShowLogoutDialog(false);
+    navigate({ to: "/" });
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutDialog(true);
+  };
+
   const nav = [
-    { to: "/discover", label: "Discover", icon: Search, key: "discover" },
     { to: "/caregivers", label: "Caregivers", icon: Users, key: "caregivers" },
     { to: "/bookings", label: "Bookings", icon: CalendarDays, key: "bookings" },
     { to: "/messages", label: "Messages", icon: Inbox, key: "messages" },
@@ -88,15 +122,37 @@ export function AppShell({
           </nav>
           <div className="flex items-center gap-2">
             {authenticated ? (
-              <Link
-                to="/dashboard"
-                className="hidden items-center gap-2 rounded-full border border-ink/10 px-3 py-2 text-[13px] font-semibold text-ink/70 hover:bg-surface sm:flex"
-              >
-                <span className="grid size-5 place-items-center rounded-full bg-coral text-[10px] text-sand">
-                  EM
-                </span>
-                Emma <ChevronDown size={14} />
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="hidden items-center gap-2 rounded-full border border-ink/10 px-3 py-2 text-[13px] font-semibold text-ink/70 hover:bg-surface sm:flex">
+                    <span className="grid size-5 place-items-center rounded-full bg-coral text-[10px] text-sand">
+                      EM
+                    </span>
+                    Emma <ChevronDown size={14} />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="flex items-center gap-2">
+                      <User size={14} />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/settings" className="flex items-center gap-2">
+                      <Settings size={14} />
+                      Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={confirmLogout} className="text-coral focus:text-coral">
+                    <LogOut size={14} />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link
                 to="/auth"
@@ -129,30 +185,135 @@ export function AppShell({
                   {label}
                 </Link>
               ))}
+              {authenticated && (
+                <>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-ink/70 hover:bg-ink/5"
+                  >
+                    <User size={16} />
+                    Dashboard
+                  </Link>
+                  <Link
+                    to="/settings"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-ink/70 hover:bg-ink/5"
+                  >
+                    <Settings size={16} />
+                    Settings
+                  </Link>
+                  <button
+                    onClick={() => {
+                      confirmLogout();
+                      setMobileOpen(false);
+                    }}
+                    className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-coral hover:bg-ink/5"
+                  >
+                    <LogOut size={16} />
+                    Log out
+                  </button>
+                </>
+              )}
             </nav>
           </div>
         )}
       </header>
       {children}
-      <footer className="border-t border-ink/10">
-        <div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-4 px-5 py-7 text-sm text-ink/50 sm:flex-row sm:items-center lg:px-8">
-          <div className="flex items-center gap-3">
-            <Logo />
-            <span className="text-xs">Childcare, made human.</span>
-          </div>
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <Link to="/safety" className="hover:text-ink">
-              Safety & vetting
-            </Link>
-            <Link to="/caregivers" className="hover:text-ink">
-              For caregivers
-            </Link>
-            <Link to="/settings" className="hover:text-ink">
-              Support
-            </Link>
+      <footer className="border-t border-ink/10 bg-surface">
+        <div className="mx-auto max-w-[1320px] px-5 py-12 lg:px-8">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
+            {/* Brand Column */}
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="grid size-10 place-items-center rounded-[10px] bg-teal font-display text-lg font-extrabold text-sand">
+                  K
+                </span>
+                <span className="font-display text-lg font-bold tracking-tight text-ink">kiddocare</span>
+              </div>
+              <p className="mt-4 max-w-xs text-sm leading-6 text-ink/55">
+                Childcare, made human. Find trusted local caregivers with verified profiles and real parent reviews.
+              </p>
+              <div className="mt-5 flex items-center gap-2">
+                <TrustBadge>Verified caregivers</TrustBadge>
+                <TrustBadge>Background checked</TrustBadge>
+              </div>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h3 className="font-display text-sm font-bold uppercase tracking-wide text-ink">Company</h3>
+              <ul className="mt-4 space-y-3">
+                <li>
+                  <Link to="/about" className="text-sm text-ink/55 hover:text-ink">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/for-caregivers" className="text-sm text-ink/55 hover:text-ink">
+                    For Caregivers
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h3 className="font-display text-sm font-bold uppercase tracking-wide text-ink">Support</h3>
+              <ul className="mt-4 space-y-3">
+                <li>
+                  <Link to="/help" className="text-sm text-ink/55 hover:text-ink">
+                    Help Center
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="text-sm text-ink/55 hover:text-ink">
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/settings" className="text-sm text-ink/55 hover:text-ink">
+                    Account Settings
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3 className="font-display text-sm font-bold uppercase tracking-wide text-ink">Legal</h3>
+              <ul className="mt-4 space-y-3">
+                <li>
+                  <Link to="/privacy" className="text-sm text-ink/55 hover:text-ink">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/terms" className="text-sm text-ink/55 hover:text-ink">
+                    Terms of Service
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </footer>
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent className="max-w-sm">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Log out?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to log out of your Kiddocare account?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleLogout} className="bg-coral hover:bg-coral/90">
+              Log out
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
