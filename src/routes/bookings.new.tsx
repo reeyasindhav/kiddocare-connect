@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { NewBookingPage } from "@/components/kiddocare-pages";
+export const Route = createFileRoute("/bookings/new")({ head: () => ({ meta: [{ title: "Request care — Kiddocare" }, { name: "description", content: "Send a clear childcare request to a trusted Kiddocare provider." }, { property: "og:title", content: "Request care — Kiddocare" }, { property: "og:description", content: "Send a clear childcare request to a trusted Kiddocare provider." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }), component: NewBookingPage });

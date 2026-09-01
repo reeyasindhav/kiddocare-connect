@@ -1,0 +1,3 @@
+- [ ] Add the missing Kiddocare routes referenced by the shared navigation
+- [ ] Replace the placeholder home screen with a usable discovery experience
+- [ ] Verify route generation and TypeScript compilation
