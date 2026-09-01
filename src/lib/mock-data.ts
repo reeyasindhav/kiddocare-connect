@@ -12,15 +12,25 @@ export const caregivers: Caregiver[] = [
   { id: "jordan", name: "Jordan Kim", initials: "JK", image: jordanImage, role: "Nanny & outdoor play", neighborhood: "Fort Greene, NY", distance: "2.1 mi", rating: "4.8", reviews: 19, rate: 20, bio: "Outdoor play, big energy, and bilingual story time. I keep kids moving, curious, and cared for.", tags: ["Outdoor play", "Toddlers", "Bilingual"], badges: ["Background checked", "CPR certified"], available: "Thu, Jun 13 · Fri, Jun 14", experience: "4 years", response: "Usually replies in 18 min" },
 ];
 
+const firstCaregiver = caregivers[0];
+const secondCaregiver = caregivers[1];
+const thirdCaregiver = caregivers[2];
+
+if (!firstCaregiver || !secondCaregiver || !thirdCaregiver) {
+  throw new Error("Kiddocare demo data requires at least three caregivers.");
+}
+
+export const primaryCaregiver = firstCaregiver;
+
 export const bookings = [
-  { id: "book-1", caregiver: caregivers[0], date: "Thu, Jun 13", time: "8:00 pm – 7:00 am", type: "Overnight care", status: "Confirmed", total: "$264" },
-  { id: "book-2", caregiver: caregivers[1], date: "Sat, Jun 15", time: "3:30 pm – 7:00 pm", type: "After-school care", status: "Pending", total: "$77" },
+  { id: "book-1", caregiver: firstCaregiver, date: "Thu, Jun 13", time: "8:00 pm – 7:00 am", type: "Overnight care", status: "Confirmed", total: "$264" },
+  { id: "book-2", caregiver: secondCaregiver, date: "Sat, Jun 15", time: "3:30 pm – 7:00 pm", type: "After-school care", status: "Pending", total: "$77" },
 ];
 
 export const messages = [
-  { id: "m1", caregiver: caregivers[0], preview: "I can bring the sensory play kit we talked about.", time: "10:42 AM", unread: true },
-  { id: "m2", caregiver: caregivers[1], preview: "Thanks for sending over the bedtime routine!", time: "Yesterday", unread: true },
-  { id: "m3", caregiver: caregivers[2], preview: "Thursday at 5 works perfectly for me.", time: "Mon", unread: false },
+  { id: "m1", caregiver: firstCaregiver, preview: "I can bring the sensory play kit we talked about.", time: "10:42 AM", unread: true },
+  { id: "m2", caregiver: secondCaregiver, preview: "Thanks for sending over the bedtime routine!", time: "Yesterday", unread: true },
+  { id: "m3", caregiver: thirdCaregiver, preview: "Thursday at 5 works perfectly for me.", time: "Mon", unread: false },
 ];
 
 export const upcomingDays = [
